@@ -4,7 +4,7 @@
                 "dockerfile": "../Dockerfile",
                 "context": "..",
                 "args": {
-                        "--tag": "${containerWorkspaceFolderBasename}:latest",
+                        "--tag": "${containerWorkspaceFolderBasename}:latest"
                 },
                 "stage": "dev"
         },
@@ -12,7 +12,9 @@
                 // Mount Docker API entry point of the host machine for Docker-in-Docker
                 "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind",
                 // Mount .aws folder of the host machine for shared credentials
-                "source=${localEnv:HOME}/.aws,target=/home/vscode/.aws,type=bind"
+                "source=${localEnv:HOME}/.aws,target=/home/vscode/.aws,type=bind",
+                // Mount the SSH key folder to share with the host process
+                "source=/home/${localEnv:USER}/.ssh,target=/vscode/.ssh,readonly,type=bind"
     ],
         "features":  {
                 // Enable an SSH server inside the container for SSH agent forwarding
@@ -24,17 +26,16 @@
             "dockerDashComposeVersion": "v2"
                 }
         },
-    "remoteEnv": {
-        "CI": "${localEnv:CI}"
-        },
+        "containerEnv": {
+                "CI": "${localEnv:CI}",
+                },
         "workspaceMount": "source=${localWorkspaceFolder},target=/home/vscode/workspaces/${containerWorkspaceFolderBasename},type=bind,consistency=cached",
-        "workspaceFolder": "/home/vscode/workspaces/coeus",
+        "workspaceFolder": "/home/vscode/workspaces/erebus",
         "customizations": {
                 "vscode": {
                         "settings": {
                                 "python.defaultInterpreterPath": "/workspaces/${containerWorkspaceFolderBasename}/.venv/bin/python3",
-                                "terminal.integrated.profiles.linux": {"bash": {"path": "bash"}},
-                                "remote.ssh.enableAgentForwarding": true
+                                "terminal.integrated.profiles.linux": {"bash": {"path": "bash"}}
                         },
                         "extensions": [
                                 "vscodevim.vim",
