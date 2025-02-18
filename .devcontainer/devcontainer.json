@@ -10,11 +10,10 @@
         },
         "mounts": [
                 // Mount Docker API entry point of the host machine for Docker-in-Docker
-                "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind",
+                "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind"
                 // Mount .aws folder of the host machine for shared credentials
-                "source=${localEnv:HOME}/.aws,target=/home/vscode/.aws,type=bind",
-                // Mount the SSH key folder to share with the host process
-                "source=/home/${localEnv:USER}/.ssh,target=/vscode/.ssh,readonly,type=bind"
+                // Uncomment the line below to utilise credential and config on the host system
+                // "source=${localEnv:HOME}/.aws,target=/home/vscode/.aws,type=bind"
     ],
         "features":  {
                 // Enable an SSH server inside the container for SSH agent forwarding
@@ -27,7 +26,7 @@
                 }
         },
         "containerEnv": {
-                "CI": "${localEnv:CI}",
+                "CI": "${localEnv:CI}"
                 },
         "workspaceMount": "source=${localWorkspaceFolder},target=/home/vscode/workspaces/${containerWorkspaceFolderBasename},type=bind,consistency=cached",
         "workspaceFolder": "/home/vscode/workspaces/erebus",

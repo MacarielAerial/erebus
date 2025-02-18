@@ -37,7 +37,7 @@ COPY scripts/ /tmp/scripts/
 RUN chmod +x /tmp/scripts/*.sh
 
 # Install system dependencies not available in the package manager
-RUN /tmp/scripts/install-opentofu.sh \
+RUN /tmp/scripts/install-opentofu.sh
     # Pick the cloud service provider's CLI to install
     # && /tmp/scripts/install-awscli.sh
     # && /tmp/scripts/install-azure-cli.sh
